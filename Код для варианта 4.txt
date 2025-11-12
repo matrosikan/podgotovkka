@@ -1,0 +1,29 @@
+def greedy_knapsack(items, c):
+    items = sorted(items, key=lambda x: x[1]/x[0], reverse=True)
+    totalweight = 0
+    totalvalue = 0
+    s = []
+    for weight, value in items:
+        if totalweight + weight <= c:
+            s.append((weight, value))
+            totalweight += weight
+            totalvalue += value
+        else:
+            continue
+    itemsvalue = sorted(items, key=lambda x: x[1], reverse=True)
+    fullvalue = 0
+    totalweightfull = 0
+    for weight, value in itemsvalue:
+        if totalweightfull + weight <= c:
+            totalweightfull += weight
+            fullvalue += value
+    approximation = totalvalue / fullvalue if fullvalue != 0 else 0
+    return s, totalvalue, approximation
+items = [(3, 12), (2, 8), (4, 20), (5, 18)]
+c = 7
+s, totalvalue, approximation = greedy_knapsack(items, c)
+print("Выбранные предметы:")
+for weight, value in s:
+    print(f"Вес={weight}, Стоимость={value}")
+print(f"Общая стоимость: {totalvalue}")
+print(f"Коэффициент аппроксимации: {approximation:.2f}")
